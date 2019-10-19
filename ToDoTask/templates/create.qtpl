@@ -1,0 +1,23 @@
+{% import "net/http" %}
+
+{% code 
+type CreatePage struct {
+	R *http.Request
+}
+%}
+
+{% func (p *CreatePage) Title() %}
+	Creating item
+{% endfunc %}
+
+{% func (p *CreatePage) Body() %}
+	<h1>Create item page</h1>
+	<div>
+		<form action="/item-create" method="post" enctype="multipart/form-data">
+		 	Username:<input type="text" name="username">
+		 	Category:<input type="category" name="category">
+		 	Title:<input type="title" name="title">
+		 	<input type="submit" value="Create">
+ 		</form>
+	</div>
+{% endfunc %}

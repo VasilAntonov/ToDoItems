@@ -1,0 +1,48 @@
+{% import "net/http" %}
+{% import "ToDoTask/database" %}
+
+{% code 
+type StartPage struct {
+	R *http.Request
+	Data []*database.ToDoItem
+}
+%}
+
+{% func (p *StartPage) Title() %}
+	Main page
+{% endfunc %}
+
+{% func (p *StartPage) Body() %}
+	<h1>Main Page</h1>
+	<div>
+        Click links bellow
+		<ul>
+            <li><a href="/item-create">Create item</a></li>
+        </ul>
+	</div>
+
+	<div>
+		{% if len(p.Data) > 0 %}
+		<form action="/item-delete" method="post" enctype="multipart/form-data">
+			<table border="1" cellpadding="10" align="center">
+				<th>ID</th>
+				<th>Title</th>
+				<th>Category</th>
+				<th>UserName</th>
+				<th></th>
+				{% for _, item := range p.Data %}
+					<tr>
+						<td>{%d int(item.ID) %}</td>
+						<td>{%s string(item.Title) %}</td>
+						<td>{%s item.Category %}</td>
+						<td>{%s item.UserName %}</td>
+						<td><a href="/item-delete?id={%d int(item.ID) %}">Delete</a></td>
+					</tr>
+				{% endfor %}
+			</table>
+		</form>	
+		{% else %}
+			<h5>No items currently exist</h5>
+		{% endif %}
+	</div>
+{% endfunc %}
